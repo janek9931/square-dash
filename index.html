@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>SQUARE DASH 3.20 - Documentation Edition</title>
+    <title>SQUARE DASH - Official 1.0</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐟</text></svg>">
     <style>
         :root { --outline: #000; --player-color: #00ffcc; --spike-color: #ff3366; --saw-color: #ffaa00; --victory-gold: #ffd700; }
@@ -23,14 +23,17 @@
 <body>
     <div style="width: 95vw; display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center;">
         <div class="stat-box" id="score">0</div>
-        <div style="text-align: center; color: white;"><h1>SQUARE DASH 3.20</h1><div id="sub-title">DOKUMENTACJA: 0/107</div></div>
+        <div style="text-align: center; color: white;">
+            <h1 style="margin:0;">SQUARE DASH</h1>
+            <div id="sub-title">WYZWANIE 107 ŚLEDZI</div>
+        </div>
         <div class="stat-box" id="highscore">0</div>
     </div>
     <div id="game-viewport">
         <div id="victory-banner">UDOKUMENTOWANO: 107 🐟</div>
         <div id="floor"></div><div id="player"></div>
         <div id="msg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: #fff; color: #000; padding: 40px; border: 6px solid var(--outline); border-radius: 15px; z-index: 101;">
-            <h2>CZYSZCZENIE DANYCH</h2><p>REKORD ZOSTAŁ WYEROWANY. POWODZENIA!</p>
+            <h2>WITAJ W SQUARE DASH</h2><p>DOBIJESZ DO 107?</p>
         </div>
     </div>
 
@@ -41,27 +44,15 @@
         let jumpQueued = false, lastObsX = 0, sawGlobalRotation = 0, minDistance = 550;
         const bgColors = ["#0072ff", "#ff4b2b", "#8e44ad", "#27ae60", "#f39c12", "#34495e"];
 
-        // NOWA LOGIKA: Reset przy pierwszym załadowaniu wersji 3.20
-        function initDocumentation() {
-            if (!localStorage.getItem('v320_reset')) {
-                localStorage.setItem('squareDashHS', 0);
-                localStorage.setItem('v320_reset', 'true');
-            }
-            refreshHS();
-        }
-
         function refreshHS() {
             let hs = parseInt(localStorage.getItem('squareDashHS')) || 0;
             hsEl.innerText = hs;
             if (hs >= 107) {
                 hsEl.parentElement.classList.add('gold');
-                subTitle.innerText = "GRABEK: UDOKUMENTOWANE";
-            } else {
-                subTitle.innerText = "DOKUMENTACJA: " + hs + "/107";
+                subTitle.innerText = "MISJA: UDOKUMENTOWANA";
             }
         }
-
-        initDocumentation();
+        refreshHS();
 
         function handleInput(e) {
             if (e.repeat) return;
@@ -104,17 +95,14 @@
                 if (pR.left < oR.right - mX && pR.right > oR.left + mX && pR.top < oR.bottom - 5 && pR.bottom > oR.top + 5) gameOver();
                 if (left < -150) { 
                     obj.element.remove(); obstacles.splice(index, 1); 
-                    
                     if (score < 107) {
                         score++; scoreEl.innerText = score;
                         if (minDistance > 320) minDistance -= 2; 
                     }
-                    
                     if (score === 107) {
                         player.classList.add('victory'); banner.style.display = 'block';
                         scoreEl.style.color = 'var(--victory-gold)';
                     }
-                    
                     gameSpeed += 0.04; 
                     if (score % 10 === 0 && score <= 100) viewport.style.backgroundColor = bgColors[(score/10) % bgColors.length];
                 }
@@ -127,13 +115,9 @@
         function gameOver() {
             isGameOver = true; jumpQueued = false; player.style.display = 'none'; banner.style.display = 'none';
             let currentHS = parseInt(localStorage.getItem('squareDashHS')) || 0;
-            
-            // Dokumentujemy tylko do 107
-            if (score > currentHS) {
-                localStorage.setItem('squareDashHS', Math.min(score, 107));
-            }
+            if (score > currentHS) localStorage.setItem('squareDashHS', Math.min(score, 107));
             refreshHS();
-            msg.innerHTML = `<h1>WYNIK: ${score}</h1><p>${score >= 107 ? 'GRABEK PRZYBIJA PIĄTKĘ!' : 'DOBIJ DO 107'}</p><p>KLIKNIJ BY POWTÓRZYĆ</p>`;
+            msg.innerHTML = `<h1>KONIEC GRY</h1><p>TWÓJ WYNIK: ${score}</p><p>KLIKNIJ BY POWTÓRZYĆ</p>`;
             msg.style.display = 'block';
         }
 
@@ -148,6 +132,4 @@
         window.addEventListener('keydown', handleInput); viewport.addEventListener('mousedown', handleInput);
     </script>
 </body>
-
 </html>
-
