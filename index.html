@@ -25,15 +25,15 @@
         <div class="stat-box" id="score">0</div>
         <div style="text-align: center; color: white;">
             <h1 style="margin:0;">SQUARE DASH</h1>
-            <div id="sub-title">WYZWANIE 107 ŚLEDZI</div>
+            <div id="sub-title">MISJA: 107 ŚLEDZI</div>
         </div>
         <div class="stat-box" id="highscore">0</div>
     </div>
     <div id="game-viewport">
-        <div id="victory-banner">UDOKUMENTOWANO: 107 🐟</div>
+        <div id="victory-banner">MISJA WYKONANA: 107 🐟</div>
         <div id="floor"></div><div id="player"></div>
         <div id="msg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: #fff; color: #000; padding: 40px; border: 6px solid var(--outline); border-radius: 15px; z-index: 101;">
-            <h2>WITAJ W SQUARE DASH</h2><p>DOBIJESZ DO 107?</p>
+            <h2>WITAJ W SQUARE DASH</h2><p>ZDOBĄDŹ 107 ŚLEDZI</p>
         </div>
     </div>
 
@@ -49,7 +49,7 @@
             hsEl.innerText = hs;
             if (hs >= 107) {
                 hsEl.parentElement.classList.add('gold');
-                subTitle.innerText = "MISJA: UDOKUMENTOWANA";
+                subTitle.innerText = "MISJA: UKOŃCZONA 🐟";
             }
         }
         refreshHS();
@@ -117,7 +117,7 @@
             let currentHS = parseInt(localStorage.getItem('squareDashHS')) || 0;
             if (score > currentHS) localStorage.setItem('squareDashHS', Math.min(score, 107));
             refreshHS();
-            msg.innerHTML = `<h1>KONIEC GRY</h1><p>TWÓJ WYNIK: ${score}</p><p>KLIKNIJ BY POWTÓRZYĆ</p>`;
+            msg.innerHTML = `<h1>KONIEC GRY</h1><p>WYNIK: ${score}</p><p>KLIKNIJ BY POWTÓRZYĆ</p>`;
             msg.style.display = 'block';
         }
 
